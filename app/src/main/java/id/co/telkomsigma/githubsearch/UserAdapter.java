@@ -52,7 +52,7 @@ public class UserAdapter extends BaseAdapter implements Filterable {
         }else{
             viewHolder=(Holder)convertView.getTag();
         }
-        viewHolder.nameTv.setText(listUser.get(position).getLogin()+" : "+position+"/"+listUser.size());
+        viewHolder.nameTv.setText(listUser.get(position).getLogin());
         Picasso.get().load(listUser.get(position).getAvatar()).into(viewHolder.ivProfile);
         return convertView;
     }

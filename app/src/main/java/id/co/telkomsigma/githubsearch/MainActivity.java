@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -31,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         mSearchNFilterLv= findViewById(R.id.list_view);
         mSearchEdt= findViewById(R.id.txt_search);
@@ -108,6 +113,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onError(ANError error) {
                         if (error.getErrorCode()==403) {
                             Toast.makeText(MainActivity.this, "API access limit exceeded for your device", Toast.LENGTH_SHORT).show();
+                        } else if (error.getErrorCode()==422) {
+                            Toast.makeText(MainActivity.this, "Only the first 1000 search results are available", Toast.LENGTH_SHORT).show();
+
                         }
                         progressBar.setVisibility(View.GONE);
                     }
@@ -139,6 +147,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onError(ANError error) {
                         System.out.println(error);
+                        if (error.getErrorCode()==422) {
+                            Toast.makeText(MainActivity.this, "Only the first 1000 search results are available", Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
     }
